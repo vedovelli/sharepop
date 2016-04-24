@@ -141,8 +141,15 @@ hr {
 }
 
 #clearAllFinishedButton {
-    color: #c00000;
+    font-size: .8em;
+    color: #fff;
     text-decoration: none;
+    background-color: #c00000;
+    padding: 5px;
+    width: 190px;
+    display: inline-block;
+    text-align: center;
+    border-radius: 4px;
 }
 
 .separator {
