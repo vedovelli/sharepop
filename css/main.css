@@ -3,6 +3,12 @@ body {
     font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 
+#mainContainer {
+    padding-top: 75px;
+    width: 570px;
+    margin: 0 auto;
+}
+
 #todoList, #todoList li {
     list-style: none;
     padding: 0;
@@ -19,13 +25,65 @@ body {
     border-right: #c8c8c8 1px solid;
 }
 
-.todo div{
+.todo div {
     background-color: #fff;
     padding: 10px;
     cursor: pointer;
     font-size: 1.1em;
+    position: relative;
+}
+
+.todo span {
+    position: absolute;
+    right: 10px;
+    top: 2px;
+    font-size: 1.5em;
+    color: #2FB15C;
+}
+
+.todo.completed span {
+    color: #CAD1D5;
 }
 
 .completed {
     color: #CAD1D5;
+}
+
+#todoForm {
+    margin-top: 20px;
+    position: relative;
+}
+
+#todoContent {
+    background-color: transparent;
+    border: none;
+    font-size: 1.7em;
+    font-weight: normal;
+    width: 100%;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+}
+
+::-webkit-input-placeholder {
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+}
+:-moz-placeholder {
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+}
+::-moz-placeholder {
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+}
+:-ms-input-placeholder {
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+}
+
+#todoContent:focus {
+  outline: none;
+}
+
+#addTodoButton {
+    font-size: 2.3em;
+    position: absolute;
+    right: 3px;
+    top: -3px;
+    color: #9e2ccd;
 }

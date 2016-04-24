@@ -74,7 +74,7 @@ var SharePop = {
                 todos.forEach(function (todo) {
                     var completed = todo.completed == 1 ? ' completed' : '';
                     markup += '<li class="todo'+ completed +'" data-id="'+ todo.id +'">';
-                    markup += '<div>'+ todo.content +'</div>';
+                    markup += '<div>'+ todo.content +'<span><i class="fa fa-fw fa-check-circle"></i></span></div>';
                     markup += '</li>';
                 });
             }
