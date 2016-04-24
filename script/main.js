@@ -43,12 +43,7 @@ var SharePop = {
             d.markAllFinishedButton.on('click', m.markAllFinishedEventHandler);
             d.clearAllFinishedButton.on('click', m.clearAllFinishedEventHandler);
 
-            /**
-            * localStorage data retrieval
-            */
-            var savedList = window.localStorage.getItem('sharepop');
-            savedList = JSON.parse(savedList);
-            SharePop.data.todos = savedList != null ? savedList.todos : [];
+            SharePop.data.todos = SharePop.methods.getSavedList();
 
             /**
             * Everytime the list changes this method gets executed
@@ -56,6 +51,12 @@ var SharePop = {
             SharePop.methods.assembleList(SharePop.data.todos);
 
             SharePop.dom.todoContent.focus();
+        },
+
+        getSavedList: function () {
+            var savedList = window.localStorage.getItem('sharepop');
+            savedList = JSON.parse(savedList);
+            return savedList != null ? savedList.todos : []
         },
 
         switchTheme: function (ev) {
@@ -120,7 +121,7 @@ var SharePop = {
                 return t.id == id;
             });
             if (todo.length == 1) {
-                SharePop.methods.toggleFinished(todo[0])
+                SharePop.methods.toggleFinished(todo[0]);
             }
         },
 
@@ -149,7 +150,7 @@ var SharePop = {
                 };
                 SharePop.methods.newTodo(newTodo);
             } else {
-                SharePop.dom.todoContent.val('').focus()
+                SharePop.dom.todoContent.val('').focus();
             }
         },
 
@@ -201,7 +202,7 @@ var SharePop = {
                 });
             }
             SharePop.dom.todoList.html(markup);
-            SharePop.methods.saveList(todos)
+            SharePop.methods.saveList(todos);
         },
 
         saveList: function (todos) {
@@ -211,7 +212,7 @@ var SharePop = {
         },
 
         uid: function () {
-            return ("0000" + (Math.random()*Math.pow(36,4) << 0).toString(36)).slice(-4)
+            return ("0000" + (Math.random()*Math.pow(36,4) << 0).toString(36)).slice(-4);
         },
 
         notify: function (message, type) {
