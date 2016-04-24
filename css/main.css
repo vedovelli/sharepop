@@ -40,15 +40,15 @@ body {
     position: relative;
 }
 
-.todo span {
+.todo-checkmark {
     position: absolute;
-    right: 10px;
-    top: 2px;
+    right: 8px;
+    top: 5px;
     font-size: 1.5em;
     color: #2FB15C;
 }
 
-.todo.completed span {
+.todo.completed .todo-checkmark {
     color: #CAD1D5;
 }
 
@@ -97,4 +97,20 @@ body {
     right: 3px;
     top: -3px;
     color: #9e2ccd;
+}
+
+#topHeadSection > div {
+    position: relative;
+}
+
+#markAllCompletedButton {
+    color: #2FB15C;
+    text-decoration: none;
+    position: absolute;
+    right: 0;
+    top: -30px;
+}
+
+#topHeadSection hr {
+    border-top: 1px solid #BFC8CB;
 }

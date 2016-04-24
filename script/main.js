@@ -19,6 +19,7 @@ var SharePop = {
     methods: {
 
         setup: function () {
+            $('body').on('dblclick', SharePop.methods.clearAllCompletedEventHandler)
             SharePop.dom.$todos.on('click', '.todo', SharePop.methods.toggleCompletedEventHandler);
             SharePop.dom.$addTodoButton.on('click', SharePop.methods.newTodoEventHandler);
             SharePop.dom.$todoForm.on('submit', SharePop.methods.newTodoEventHandler);
@@ -27,9 +28,27 @@ var SharePop = {
             var savedList = window.localStorage.getItem('sharepop');
             savedList = JSON.parse(savedList);
             SharePop.data.todos = savedList.todos || [];
+
+            SharePop.methods.assembleList(SharePop.data.todos);
+
+            SharePop.dom.$todoContent.focus();
         },
 
-        markAllCompletedEventHandler: function () {
+        clearAllCompletedEventHandler: function (ev) {
+            var confirm = window.confirm('Are you sure you want to clear ALL your list? This CANNOT be undone.');
+
+            if (confirm) {
+                SharePop.methods.clearAllCompleted();
+            }
+        },
+
+        clearAllCompleted: function () {
+            SharePop.data.todos = [];
+            SharePop.methods.assembleList(SharePop.data.todos);
+        },
+
+        markAllCompletedEventHandler: function (ev) {
+            ev.preventDefault();
             SharePop.data.todos.forEach(function (todo) {
                 todo.completed = 1;
             });
@@ -83,8 +102,9 @@ var SharePop = {
                 todos.forEach(function (todo) {
                     var completed = todo.completed == 1 ? ' completed' : '';
                     markup += '<li class="todo'+ completed +'" data-id="'+ todo.id +'">';
-                    markup += '<div>'+ todo.content +'<span><i class="fa fa-fw fa-check-circle"></i></span></div>';
-                    markup += '</li>';
+                    markup += '<div>'+ todo.content;
+                    markup += '<span class="todo-checkmark"><i class="fa fa-fw fa-check-circle"></i></span>';
+                    markup += '</div></li>';
                 });
             }
             SharePop.dom.$todoList.html(markup);
@@ -100,4 +120,4 @@ var SharePop = {
 };
 
 SharePop.methods.setup();
-SharePop.methods.assembleList(SharePop.data.todos);
+
