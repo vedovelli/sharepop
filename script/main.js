@@ -37,7 +37,7 @@ var SharePop = {
 
             d.themeSwitcher.on('change', m.switchTheme);
             d.prefs.on('click', m.togglePreferencesEventHandler);
-            d.todos.on('click', '.todo', m.toggleFinishedEventHandler);
+            d.todos.on('click', '.todo-sleek, .todo-full', m.toggleFinishedEventHandler);
             d.addTodoButton.on('click', m.newTodoEventHandler);
             d.todoForm.on('submit', m.newTodoEventHandler);
             d.markAllFinishedButton.on('click', m.markAllFinishedEventHandler);
@@ -66,6 +66,7 @@ var SharePop = {
 
             SharePop.data.currentTheme = ev.currentTarget.value;
             SharePop.methods.assembleList(SharePop.data.todos);
+            SharePop.methods.hidePreferencesPane();
             SharePop.dom.todoContent.focus();
         },
 
