@@ -77,11 +77,11 @@ hr {
     color: #2FB15C;
 }
 
-.todo.completed .todo-checkmark {
+.todo.finished .todo-checkmark {
     color: #CAD1D5;
 }
 
-.completed {
+.finished {
     color: #CAD1D5;
 }
 
@@ -132,7 +132,7 @@ hr {
     position: relative;
 }
 
-#markAllCompletedButton {
+#markAllFinishedButton {
     color: #2FB15C;
     text-decoration: none;
     position: absolute;

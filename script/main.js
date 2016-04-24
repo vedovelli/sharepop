@@ -1,17 +1,22 @@
 
+/**
+* Additional information about this app:
+* 1. Data is being persisted in localStorage
+* 2. Writing ES5 was painful =)
+*/
+
 var SharePop = {
 
     dom: {
-        $prefs: $('#cog a'),
-        $prefsPane: $('#preferences'),
-        $todos: $('#todos'),
-        $todoList: $('#todoList'),
-        $newTodo: $('#newTodo'),
-        $todoContent: $('#todoContent'),
-        $todoForm: $('#todoForm'),
-        $addTodoButton: $('#addTodoButton'),
-        $markAllCompletedButton: $('#markAllCompletedButton'),
-        $clearAllFinishedButton: $('#clearAllFinishedButton'),
+        prefs: $('#cog a'),
+        prefsPane: $('#preferences'),
+        todos: $('#todos'),
+        todoList: $('#todoList'),
+        todoContent: $('#todoContent'),
+        todoForm: $('#todoForm'),
+        addTodoButton: $('#addTodoButton'),
+        markAllFinishedButton: $('#markAllFinishedButton'),
+        clearAllFinishedButton: $('#clearAllFinishedButton'),
     },
 
     data: {
@@ -21,110 +26,130 @@ var SharePop = {
     methods: {
 
         setup: function () {
-            SharePop.dom.$prefs.on('click', SharePop.methods.togglePreferencesEventHandler);
-            SharePop.dom.$todos.on('click', '.todo', SharePop.methods.toggleCompletedEventHandler);
-            SharePop.dom.$addTodoButton.on('click', SharePop.methods.newTodoEventHandler);
-            SharePop.dom.$todoForm.on('submit', SharePop.methods.newTodoEventHandler);
-            SharePop.dom.$markAllCompletedButton.on('click', SharePop.methods.markAllCompletedEventHandler);
-            SharePop.dom.$clearAllFinishedButton.on('click', SharePop.methods.clearAllCompletedEventHandler);
+            /**
+            * Event listeners
+            */
+            var d = SharePop.dom,
+                m = SharePop.methods;
 
+            d.prefs.on('click', m.togglePreferencesEventHandler);
+            d.todos.on('click', '.todo', m.toggleFinishedEventHandler);
+            d.addTodoButton.on('click', m.newTodoEventHandler);
+            d.todoForm.on('submit', m.newTodoEventHandler);
+            d.markAllFinishedButton.on('click', m.markAllFinishedEventHandler);
+            d.clearAllFinishedButton.on('click', m.clearAllFinishedEventHandler);
+
+            /**
+            * localStorage data retrieval
+            */
             var savedList = window.localStorage.getItem('sharepop');
             savedList = JSON.parse(savedList);
-            SharePop.data.todos = savedList.todos || [];
+            SharePop.data.todos = savedList != null ? savedList.todos : [];
 
+            /**
+            * Everytime the list changes this method gets executed
+            */
             SharePop.methods.assembleList(SharePop.data.todos);
 
-            SharePop.dom.$todoContent.focus();
+            SharePop.dom.todoContent.focus();
         },
 
         togglePreferencesEventHandler: function (ev) {
             ev.preventDefault();
-            SharePop.dom.$prefsPane.toggleClass('visible');
+            SharePop.dom.prefsPane.toggleClass('visible');
         },
 
         hidePreferencesPane: function () {
-            SharePop.dom.$prefsPane.removeClass('visible');
+            SharePop.dom.prefsPane.removeClass('visible');
         },
 
-        clearAllCompletedEventHandler: function (ev) {
+        clearAllFinishedEventHandler: function (ev) {
             var confirm = window.confirm('Are you sure you want to clear all finished items?');
 
             if (confirm) {
-                SharePop.methods.clearAllCompleted();
+                SharePop.methods.clearAllFinished(SharePop.data.todos);
+                SharePop.methods.hidePreferencesPane();
             }
         },
 
-        clearAllCompleted: function () {
-            SharePop.data.todos.forEach(function (todo, index) {
-                if (todo.completed == 1) {
-                    SharePop.data.todos.splice(index, 1)
+        clearAllFinished: function (todos) {
+            /**
+            * Because .splice() makes a mess with the indexes
+            * this function gets called recursively, removing
+            * finished todos one by one.
+            */
+            todos.forEach(function (todo, index) {
+                if (todo.finished == 1) {
+                    todos.splice(index, 1);
+                    SharePop.methods.assembleList(SharePop.data.todos);
+                    SharePop.methods.clearAllFinished(todos);
                 }
             });
-            SharePop.methods.assembleList(SharePop.data.todos);
-            SharePop.methods.hidePreferencesPane();
         },
 
-        markAllCompletedEventHandler: function (ev) {
+        markAllFinishedEventHandler: function (ev) {
             ev.preventDefault();
             SharePop.data.todos.forEach(function (todo) {
-                todo.completed = 1;
+                todo.finished = 1;
             });
             SharePop.methods.assembleList(SharePop.data.todos);
         },
 
-        toggleCompletedEventHandler: function () {
+        toggleFinishedEventHandler: function () {
             var id = $(this).data('id');
             var todo = SharePop.data.todos.filter(function (t) {
                 return t.id == id;
             });
             if (todo.length == 1) {
-                SharePop.methods.toggleCompleted(todo[0])
+                SharePop.methods.toggleFinished(todo[0])
             }
         },
 
-        toggleCompleted: function (todo) {
-            if (todo.completed == 1) {
-                todo.completed = 0;
+        toggleFinished: function (todo) {
+            if (todo.finished == 1) {
+                todo.finished = 0;
             } else {
-                todo.completed = 1;
+                todo.finished = 1;
             }
             SharePop.methods.assembleList(SharePop.data.todos);
         },
 
         newTodoEventHandler: function (ev) {
             ev.preventDefault();
-            var next = SharePop.data.todos.length + 1;
-            var val = SharePop.dom.$todoContent.val()
+
+            var uid = SharePop.methods.uid(),
+                val = SharePop.dom.todoContent.val();
+
             if (val != '') {
                 var newTodo = {
-                    id: next,
+                    id: uid,
                     content: val,
-                    completed: 0
+                    finished: 0
                 };
                 SharePop.methods.newTodo(newTodo);
             } else {
-                SharePop.dom.$todoContent.val('').focus()
+                SharePop.dom.todoContent.val('').focus()
             }
         },
 
         newTodo: function (data) {
             SharePop.data.todos.unshift(data)
             SharePop.methods.assembleList(SharePop.data.todos)
-            SharePop.dom.$todoContent.val('').focus()
+            SharePop.dom.todoContent.val('').focus()
         },
 
         assembleList: function (todos) {
             var markup = '';
             if (todos.length > 0) {
                 todos.forEach(function (todo) {
-                    var completed = todo.completed == 1 ? ' completed' : '';
-                    markup += '<li class="todo'+ completed +'" data-id="'+ todo.id +'">';
+                    var finished = todo.finished == 1 ? ' finished' : '';
+                    markup += '<li class="todo'+ finished +'" data-id="'+ todo.id +'">';
                     markup += '<div>'+ todo.content;
                     markup += '<span class="todo-checkmark"><i class="fa fa-fw fa-check-circle"></i></span>';
                     markup += '</div></li>';
                 });
             }
-            SharePop.dom.$todoList.html(markup);
+            SharePop.dom.todoList.html(markup);
             SharePop.methods.saveList(todos)
         },
 
@@ -132,6 +157,10 @@ var SharePop = {
             var obj = { todos: todos };
             obj = JSON.stringify(obj);
             window.localStorage.setItem('sharepop', obj);
+        },
+
+        uid: function () {
+            return ("0000" + (Math.random()*Math.pow(36,4) << 0).toString(36)).slice(-4)
         }
     },
 };
