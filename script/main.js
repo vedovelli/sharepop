@@ -87,6 +87,7 @@ var SharePop = {
                 SharePop.methods.clearAllFinished(SharePop.data.todos);
                 SharePop.methods.hidePreferencesPane();
             }
+            SharePop.methods.notify('All finished are now cleared');
         },
 
         clearAllFinished: function (todos) {
@@ -110,6 +111,7 @@ var SharePop = {
                 todo.finished = 1;
             });
             SharePop.methods.assembleList(SharePop.data.todos);
+            SharePop.methods.notify('All todos are now finished');
         },
 
         toggleFinishedEventHandler: function () {
@@ -125,8 +127,10 @@ var SharePop = {
         toggleFinished: function (todo) {
             if (todo.finished == 1) {
                 todo.finished = 0;
+                SharePop.methods.notify('You added ' + todo.content + ' back to the list', 'warning');
             } else {
                 todo.finished = 1;
+                SharePop.methods.notify('Todo ' + todo.content + ' is now finished');
             }
             SharePop.methods.assembleList(SharePop.data.todos);
         },
@@ -150,9 +154,10 @@ var SharePop = {
         },
 
         newTodo: function (data) {
-            SharePop.data.todos.unshift(data)
-            SharePop.methods.assembleList(SharePop.data.todos)
-            SharePop.dom.todoContent.val('').focus()
+            SharePop.data.todos.unshift(data);
+            SharePop.methods.assembleList(SharePop.data.todos);
+            SharePop.dom.todoContent.val('').focus();
+            SharePop.methods.notify('Todo succesfully added');
         },
 
         assembleList: function (todos) {
@@ -207,6 +212,21 @@ var SharePop = {
 
         uid: function () {
             return ("0000" + (Math.random()*Math.pow(36,4) << 0).toString(36)).slice(-4)
+        },
+
+        notify: function (message, type) {
+            var obj = { message: message, location: 'tl' };
+            switch (type) {
+                case 'error':
+                    $.growl.error(obj);
+                    break;
+                case 'warning':
+                    $.growl.warning(obj);
+                    break;
+                default:
+                    $.growl.notice(obj);
+                    break;
+            }
         }
     },
 };
