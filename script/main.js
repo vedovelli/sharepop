@@ -35,7 +35,7 @@ var SharePop = {
         },
 
         clearAllCompletedEventHandler: function (ev) {
-            var confirm = window.confirm('Are you sure you want to clear ALL your list? This CANNOT be undone.');
+            var confirm = window.confirm('Are you sure you want to clear all finished items?');
 
             if (confirm) {
                 SharePop.methods.clearAllCompleted();
@@ -43,7 +43,11 @@ var SharePop = {
         },
 
         clearAllCompleted: function () {
-            SharePop.data.todos = [];
+            SharePop.data.todos.forEach(function (todo, index) {
+                if (todo.completed == 1) {
+                    SharePop.data.todos.splice(index, 1)
+                }
+            });
             SharePop.methods.assembleList(SharePop.data.todos);
         },
 
