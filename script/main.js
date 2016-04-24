@@ -1,10 +1,4 @@
 
-/**
-* Additional information about this app:
-* 1. Data is being persisted in localStorage
-* 2. Writing ES5 was painful =)
-*/
-
 var SharePop = {
 
     dom: {
@@ -108,11 +102,15 @@ var SharePop = {
 
         markAllFinishedEventHandler: function (ev) {
             ev.preventDefault();
+            SharePop.methods.markAllFinished();
+            SharePop.methods.assembleList(SharePop.data.todos);
+            SharePop.methods.notify('All todos are now finished');
+        },
+
+        markAllFinished: function () {
             SharePop.data.todos.forEach(function (todo) {
                 todo.finished = 1;
             });
-            SharePop.methods.assembleList(SharePop.data.todos);
-            SharePop.methods.notify('All todos are now finished');
         },
 
         toggleFinishedEventHandler: function () {
@@ -165,8 +163,8 @@ var SharePop = {
             var markup = '';
             if (todos.length > 0) {
                 todos.forEach(function (todo, index) {
-                    var finished = todo.finished == 1 ? ' finished' : '';
-                    var evenOddEl = '';
+                    var finished = todo.finished == 1 ? ' finished' : '',
+                        evenOddEl = '';
 
                     if (SharePop.data.currentTheme == 'full') {
                         if (index % 2 == 1) {
@@ -181,6 +179,7 @@ var SharePop = {
                         }
                         markup += '<li class="todo-full'+ finished +' '+ evenOddEl +'" data-id="'+ todo.id +'">';
                         markup += '<div class="todoContent">'+ todo.content;
+                        markup += '<span class="todo-playmark '+ evenOddEl +'"><i class="fa fa-fw fa-play"></i></span>';
                         markup += '<span class="todo-checkmark"><i class="fa fa-fw fa-check-circle"></i></span>';
                         markup += '</div>';
                         markup += '</li>';
