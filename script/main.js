@@ -2,7 +2,8 @@
 var SharePop = {
 
     dom: {
-        $output: $('#output'),
+        $prefs: $('#cog a'),
+        $prefsPane: $('#preferences'),
         $todos: $('#todos'),
         $todoList: $('#todoList'),
         $newTodo: $('#newTodo'),
@@ -10,6 +11,7 @@ var SharePop = {
         $todoForm: $('#todoForm'),
         $addTodoButton: $('#addTodoButton'),
         $markAllCompletedButton: $('#markAllCompletedButton'),
+        $clearAllFinishedButton: $('#clearAllFinishedButton'),
     },
 
     data: {
@@ -19,11 +21,12 @@ var SharePop = {
     methods: {
 
         setup: function () {
-            $('body').on('dblclick', SharePop.methods.clearAllCompletedEventHandler)
+            SharePop.dom.$prefs.on('click', SharePop.methods.togglePreferencesEventHandler);
             SharePop.dom.$todos.on('click', '.todo', SharePop.methods.toggleCompletedEventHandler);
             SharePop.dom.$addTodoButton.on('click', SharePop.methods.newTodoEventHandler);
             SharePop.dom.$todoForm.on('submit', SharePop.methods.newTodoEventHandler);
             SharePop.dom.$markAllCompletedButton.on('click', SharePop.methods.markAllCompletedEventHandler);
+            SharePop.dom.$clearAllFinishedButton.on('click', SharePop.methods.clearAllCompletedEventHandler);
 
             var savedList = window.localStorage.getItem('sharepop');
             savedList = JSON.parse(savedList);
@@ -32,6 +35,15 @@ var SharePop = {
             SharePop.methods.assembleList(SharePop.data.todos);
 
             SharePop.dom.$todoContent.focus();
+        },
+
+        togglePreferencesEventHandler: function (ev) {
+            ev.preventDefault();
+            SharePop.dom.$prefsPane.toggleClass('visible');
+        },
+
+        hidePreferencesPane: function () {
+            SharePop.dom.$prefsPane.removeClass('visible');
         },
 
         clearAllCompletedEventHandler: function (ev) {
@@ -49,6 +61,7 @@ var SharePop = {
                 }
             });
             SharePop.methods.assembleList(SharePop.data.todos);
+            SharePop.methods.hidePreferencesPane();
         },
 
         markAllCompletedEventHandler: function (ev) {

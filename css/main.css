@@ -3,6 +3,35 @@ body {
     font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 
+hr {
+    border-top: 1px solid #BFC8CB;
+}
+
+#preferences {
+    transition: opacity 400ms ease-in-out;
+    width: 200px;
+    height: 200px;
+    border: #BFC8CB 1px solid;
+    position: absolute;
+    right: 15px;
+    background-color: #f4f4f4;
+    z-index: 1000;
+    padding: 10px;
+    opacity: 0;
+}
+
+#preferences.visible {
+    opacity: 1;
+}
+
+#cog a {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    color: #aaa;
+    z-index: 1001;
+}
+
 #mainContainer {
     padding-top: 75px;
     width: 570px;
@@ -111,6 +140,11 @@ body {
     top: -30px;
 }
 
-#topHeadSection hr {
-    border-top: 1px solid #BFC8CB;
+#clearAllFinishedButton {
+    color: #c00000;
+    text-decoration: none;
+}
+
+.separator {
+    padding: 10px 0;
 }
