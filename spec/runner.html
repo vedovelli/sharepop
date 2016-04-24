@@ -1,0 +1,24 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Mocha Tests</title>
+	<link rel="stylesheet" href="libs/mocha.css" />
+</head>
+<body>
+	<div id="mocha"></div>
+	<script src="libs/expect.js"></script>
+	<script src="libs/mocha.js"></script>
+	<script src="../lib/jquery-1.12.3.min.js"></script>
+	<script src="../script/main.js"></script>
+
+	<script>
+		mocha.setup('bdd');
+		mocha.bail(false);
+	</script>
+
+	<script src="sharepop.specs.js"></script>
+	<script>
+		mocha.run();
+	</script>
+</body>
+</html>
