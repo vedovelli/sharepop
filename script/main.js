@@ -23,7 +23,7 @@ var SharePop = {
 
     data: {
         todos: [],
-        currentTheme: 'sleek'
+        currentTheme: 'full'
     },
 
     methods: {
@@ -156,12 +156,36 @@ var SharePop = {
         assembleList: function (todos) {
             var markup = '';
             if (todos.length > 0) {
-                todos.forEach(function (todo) {
+                todos.forEach(function (todo, index) {
                     var finished = todo.finished == 1 ? ' finished' : '';
-                    markup += '<li class="todo'+ finished +'" data-id="'+ todo.id +'">';
-                    markup += '<div>'+ todo.content;
-                    markup += '<span class="todo-checkmark"><i class="fa fa-fw fa-check-circle"></i></span>';
-                    markup += '</div></li>';
+                    var evenOddEl = '';
+
+                    if (SharePop.data.currentTheme == 'full') {
+                        if (index % 2 == 1) {
+                            evenOddEl = 'even';
+                        } else {
+                            evenOddEl = 'odd';
+                        }
+                        markup += '<li>';
+                        markup += '<ul class="ul-full">';
+                        markup += '<li class="todo-full'+ finished +' '+ evenOddEl +'" data-id="'+ todo.id +'">';
+                        markup += '<div class="todoContent">'+ todo.content;
+                        markup += '<span class="todo-checkmark"><i class="fa fa-fw fa-check-circle"></i></span>';
+                        markup += '</div>';
+                        markup += '</li>';
+                        markup += '<li class="'+ evenOddEl +'">&nbsp;</li>';
+                        markup += '</ul>';
+                        markup += '</li>';
+                    }
+
+                    if (SharePop.data.currentTheme == 'sleek') {
+                        markup += '<li class="todo-sleek'+ finished +'" data-id="'+ todo.id +'">';
+                        markup += '<div class="todoContent">'+ todo.content;
+                        markup += '<span class="todo-checkmark"><i class="fa fa-fw fa-check-circle"></i></span>';
+                        markup += '</div>';
+                        markup += '</li>';
+                    }
+
                 });
             }
             SharePop.dom.todoList.html(markup);
