@@ -10,6 +10,7 @@ var SharePop = {
     dom: {
         prefs: $('#cog a'),
         prefsPane: $('#preferences'),
+        mainContainer: $('#mainContainer'),
         todos: $('#todos'),
         todoList: $('#todoList'),
         todoContent: $('#todoContent'),
@@ -17,10 +18,12 @@ var SharePop = {
         addTodoButton: $('#addTodoButton'),
         markAllFinishedButton: $('#markAllFinishedButton'),
         clearAllFinishedButton: $('#clearAllFinishedButton'),
+        themeSwitcher: $('.themeSwitcher'),
     },
 
     data: {
         todos: [],
+        currentTheme: 'sleek'
     },
 
     methods: {
@@ -32,6 +35,7 @@ var SharePop = {
             var d = SharePop.dom,
                 m = SharePop.methods;
 
+            d.themeSwitcher.on('change', m.switchTheme);
             d.prefs.on('click', m.togglePreferencesEventHandler);
             d.todos.on('click', '.todo', m.toggleFinishedEventHandler);
             d.addTodoButton.on('click', m.newTodoEventHandler);
@@ -51,6 +55,17 @@ var SharePop = {
             */
             SharePop.methods.assembleList(SharePop.data.todos);
 
+            SharePop.dom.todoContent.focus();
+        },
+
+        switchTheme: function (ev) {
+            var container = SharePop.dom.mainContainer;
+            container.removeClass('sleek');
+            container.removeClass('full');
+            container.addClass(ev.currentTarget.value);
+
+            SharePop.data.currentTheme = ev.currentTarget.value;
+            SharePop.methods.assembleList(SharePop.data.todos);
             SharePop.dom.todoContent.focus();
         },
 

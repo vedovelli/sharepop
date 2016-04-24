@@ -38,6 +38,10 @@ hr {
     margin: 0 auto;
 }
 
+#mainContainer.full {
+    width: 1000px;
+}
+
 #header {
     font-weight: normal;
     color: #37515e;
