@@ -80,6 +80,7 @@ var SharePop = {
         },
 
         clearAllFinishedEventHandler: function (ev) {
+            ev.preventDefault();
             var confirm = window.confirm('Are you sure you want to clear all finished items?');
 
             if (confirm) {
