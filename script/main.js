@@ -215,18 +215,7 @@ var SharePop = {
         },
 
         notify: function (message, type) {
-            var obj = { message: message, location: 'tl' };
-            switch (type) {
-                case 'error':
-                    $.growl.error(obj);
-                    break;
-                case 'warning':
-                    $.growl.warning(obj);
-                    break;
-                default:
-                    $.growl.notice(obj);
-                    break;
-            }
+            window.console.log(message);
         }
     },
 };
