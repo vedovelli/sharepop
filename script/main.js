@@ -23,7 +23,7 @@ var SharePop = {
 
     data: {
         todos: [],
-        currentTheme: 'full'
+        currentTheme: 'sleek'
     },
 
     methods: {
@@ -168,12 +168,17 @@ var SharePop = {
                         }
                         markup += '<li>';
                         markup += '<ul class="ul-full">';
+                        if (evenOddEl == 'even') {
+                            markup += '<li class="even">&nbsp;</li>';
+                        }
                         markup += '<li class="todo-full'+ finished +' '+ evenOddEl +'" data-id="'+ todo.id +'">';
                         markup += '<div class="todoContent">'+ todo.content;
                         markup += '<span class="todo-checkmark"><i class="fa fa-fw fa-check-circle"></i></span>';
                         markup += '</div>';
                         markup += '</li>';
-                        markup += '<li class="'+ evenOddEl +'">&nbsp;</li>';
+                        if (evenOddEl == 'odd') {
+                            markup += '<li class="odd">&nbsp;</li>';
+                        }
                         markup += '</ul>';
                         markup += '</li>';
                     }
