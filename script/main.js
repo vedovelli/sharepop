@@ -9,6 +9,7 @@ var SharePop = {
         $todoContent: $('#todoContent'),
         $todoForm: $('#todoForm'),
         $addTodoButton: $('#addTodoButton'),
+        $markAllCompletedButton: $('#markAllCompletedButton'),
     },
 
     data: {
@@ -21,10 +22,18 @@ var SharePop = {
             SharePop.dom.$todos.on('click', '.todo', SharePop.methods.toggleCompletedEventHandler);
             SharePop.dom.$addTodoButton.on('click', SharePop.methods.newTodoEventHandler);
             SharePop.dom.$todoForm.on('submit', SharePop.methods.newTodoEventHandler);
+            SharePop.dom.$markAllCompletedButton.on('click', SharePop.methods.markAllCompletedEventHandler);
 
             var savedList = window.localStorage.getItem('sharepop');
             savedList = JSON.parse(savedList);
             SharePop.data.todos = savedList.todos || [];
+        },
+
+        markAllCompletedEventHandler: function () {
+            SharePop.data.todos.forEach(function (todo) {
+                todo.completed = 1;
+            });
+            SharePop.methods.assembleList(SharePop.data.todos);
         },
 
         toggleCompletedEventHandler: function () {

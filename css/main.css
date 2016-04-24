@@ -9,6 +9,13 @@ body {
     margin: 0 auto;
 }
 
+#header {
+    font-weight: normal;
+    color: #37515e;
+    font-size: 1.7em;
+    margin-bottom: 12px;
+}
+
 #todoList, #todoList li {
     list-style: none;
     padding: 0;
@@ -64,15 +71,19 @@ body {
 }
 
 ::-webkit-input-placeholder {
+    color: #37515e;
     font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 :-moz-placeholder {
+    color: #37515e;
     font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 ::-moz-placeholder {
+    color: #37515e;
     font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 :-ms-input-placeholder {
+    color: #37515e;
     font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 
