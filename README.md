@@ -17,6 +17,7 @@ You can see a running version on [http://sharepop.vedovelli.com.br](http://share
 2. **Bootstraping**: the `Sharepop.methods.setup()` is the only method that needs to be called to bootstrap the whole application. It **sets up the event listeners**, **retrieve data from local storage** (if available, more about that below) and **assembles the initial list**.
 3. Another important method is `SharePop.methods.assembleList(list)` which is called everytime the `SharePop.data.todos` array changes. This ensures the data and the DOM are always in sync.
 4. All methods that are callbacks for event listeners are marked as **<method-name>EventHandler** and they usually deal with specific data and modify the DOM. If the **application data** needs to be changed, then a new method is created to handle that. This allows us to test everything that changes the data, without interfering with the DOM.
+5. **Data persistence**: there is no server side data persistence but to support development I've made use of **localStorage** to persist data locally. So, eveytime the main array changes, the data is updated in the localStorage as well.
 
 ###UI and UX
 
